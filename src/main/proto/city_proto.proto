@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.example.grpcspring.adapter.grpc;
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+
+service CityAdapter {
+  rpc findAll (google.protobuf.Empty) returns (stream CityResponse) {}
+  rpc save (CityRequest) returns (CityResponse) {}
+}
+
+message CityRequest {
+  string name = 1;
+  string ibgeCode = 2;
+}
+
+message CityResponse {
+  int64 id = 1;
+  string name = 2;
+  string ibgeCode = 3;
+}
