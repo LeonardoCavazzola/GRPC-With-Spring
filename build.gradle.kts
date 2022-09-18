@@ -4,10 +4,10 @@ import com.google.protobuf.gradle.*
 plugins {
     id("org.springframework.boot") version "2.7.3"
     id("io.spring.dependency-management") version "1.0.13.RELEASE"
+    id("com.google.protobuf") version "0.8.18"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
-    id ("com.google.protobuf") version "0.8.18"
 }
 
 group = "com.example"
@@ -21,13 +21,15 @@ repositories {
 dependencies {
     // Spring
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions") // it is not necessary for this project
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     // gRPC
     implementation("io.grpc:grpc-netty:1.49.0")
@@ -39,6 +41,7 @@ dependencies {
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.projectreactor:reactor-test")
 }
 
 tasks.withType<KotlinCompile> {
@@ -52,7 +55,7 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-sourceSets{
+sourceSets {
     main {
         java {
             srcDirs("$buildDir/generated/ksp/main/kotlin")

@@ -2,11 +2,8 @@ server:
   port: 8080
 
 spring:
-  datasource:
-    url: jdbc:mariadb://localhost:3306/spring
-    driverClassName: org.mariadb.jdbc.Driver
-    username: root
-    password: root
-  jpa:
-    hibernate:
-      ddl-auto: update
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: testa
