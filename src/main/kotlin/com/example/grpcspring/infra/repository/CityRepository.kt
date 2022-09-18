@@ -1,9 +1,8 @@
 package com.example.grpcspring.infra.repository
 
 import com.example.grpcspring.domain.City
-import kotlinx.coroutines.flow.Flow
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CityRepository : JpaRepository<City, String>
+interface CityRepository : ReactiveMongoRepository<City, String>
