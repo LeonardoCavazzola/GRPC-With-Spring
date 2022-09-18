@@ -6,15 +6,22 @@ import com.example.grpcspring.adapter.grpc.CityAdapterGrpcKt
 import com.example.grpcspring.adapter.grpc.CityRequest
 import com.example.grpcspring.adapter.grpc.CityResponse
 import com.example.grpcspring.infra.repository.CityRepository
+import com.google.protobuf.Empty
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Component
 
 @Component
 class CityAdapter(
     private val cityRepository: CityRepository
 ) : CityAdapterGrpcKt.CityAdapterCoroutineImplBase() {
-
     override suspend fun save(request: CityRequest): CityResponse =
         request.toEntity()
             .let(cityRepository::save)
+            .awaitSingle()
             .toResponse()
+
+    override fun findAll(request: Empty): Flow<CityResponse> =
+        cityRepository.findAll().map { it.toResponse() }.asFlow()
 }
